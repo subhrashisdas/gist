@@ -1,0 +1,56 @@
+Functional Requirement:
+--
+Create a feature to keep track of played time for each episode at user level. (Focus Question)
+
+Non functional Requirement:
+--
+1. We are okay if we are not accurate by 1 minutes
+2. Scallable
+3. Reliable
+4. Availability
+
+QA
+--
+Q1. Only store data and show to the users.
+Q2. What if the user replay back? Recent data.
+
+Database Design
+--
+
+users
+- user_id
+- ...
+
+shows
+- show_id
+- description
+
+episode
+- show_id
+- episode_id
+
+users_episodes
+- episode_id
+- user_id
+- minutes_watched
+- minutes_left (computed value)
+
+shows -< episode >-users_episodes(mxm)-< users
+
+API Design
+--
+
+We will chose polling at every n minutes configurable.
+From client we will send state of app at n minutes.
+
+POST /episode/:id/
+{minutes_watched}
+user data will come from token: JWT, redis token
+
+
+Calculation
+--
+1crore RPM.
+
+
+1, 2, ---- 1L
